@@ -1,0 +1,53 @@
+clc;clear;clf();
+k=1.38e-23;//boltzmann constant
+N=6.022e23;//Avogadro's no.
+
+n=input("Enter the no. of gases to be considered: ");
+for z=1:n
+name(z)=input("Enter the name of the gas: ","string");
+M=input("enter mass in g/mol: ");
+m=M/(N*1000);//mass in kg
+v=0:1:4800;
+T=100:200:1000;
+disp('T(K)   Vmp    Vav     Vrms')
+T0=900;
+subplot(n,1,z)
+for i=1:length(T)
+    for j=1:length(v)
+    A=m/(2*k*T(i)) ;
+    f(i,j)=4*%pi*((A/%pi)^1.5)*(v(j)^2)*exp(-A*v(j)^2); 
+    end
+    [p,q]=max(f(i,:));
+    Vmp=v(q);
+    Vav=sqrt(4/%pi)*Vmp;
+    Vrms=sqrt(1.5)*Vmp;
+    disp([T(i) Vmp Vav Vrms] )
+end
+
+
+plot(v',f','linewidth',1)
+title('maxwell velocity distribution for '+string(name(z)),'fontsize',5)
+xlabel("V(m/sec)",'fontsize',4);
+ylabel("P(v)",'fontsize',4);
+
+xgrid();
+legend("T="+string(T));
+
+
+subplot(4,1,4)
+m1=[28,32,4]
+m1=m1/6.022e26
+for i=1:length(m1)
+    for j=1:length(v)
+    A=m1(i)/(2*k*T0) ;
+    f(i,j)=4*%pi*((A/%pi)^1.5)*(v(j)^2)*exp(-A*v(j)^2); 
+    end
+end
+plot(v',f','linewidth',1)
+
+xlabel("V(m/sec)",'fontsize',4);
+ylabel("P(v)",'fontsize',4);
+xgrid();
+//title('maxwell velocity distribution curve for nitrogen,oxygen and helium for T='+string(T0)+'K','fontsize',6);
+legend('nitrogen','oxygen','helium');
+end
