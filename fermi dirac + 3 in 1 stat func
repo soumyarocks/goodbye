@@ -1,0 +1,32 @@
+clc;clear;clf();
+u=5;T=200;kb=8.6173303e-5
+E=0:0.001:10;
+style=['k-';'k-x';'k-d';'k-o';'k-']
+a=(E-u)/(kb*T);
+figure(0);scf(0);clf(0)//subplot(1,2,1)
+for b=-1:1
+     f=1./(exp(a)+b)
+     plot(a(1:2:$),f(1:2:$),style(b+3),'linewidth',2)
+     replot([-5 5;0 2])
+end
+g=gca();g.y_location="origin"
+title("Plot of statistical distribution functions",'fontsize',6)
+L=legend("Bose Einstein distribution","Maxwell Boltzmann distribution","Fermi Dirac distribution")
+L.font_size=5
+xlabel("$(\frac{\epsilon-\mu}{K_b *T})$",'fontsize',5)
+ylabel("Avg. Occupation no.",'fontsize',5)
+figure(1);scf(1);clf(1)//subplot(1,2,2);//figure(1);scf(1);clf(1)
+for T=0:100:400
+     for i=1:length(E)
+          f(T/100 +1,i)=1/(exp((E(i)-u)/(kb*T))+1)
+     end
+     l(T/100 +1)=["T="+string(T)+"K"]
+     plot(a(1:3:$),f(T/100 +1,1:3:$),style((T/100)+1),'linewidth',2)
+     replot([-6 6;0 2])
+end
+g=gca();g.y_location="origin"
+title("Plot of Fermi Dirac distribution function",'fontsize',6)
+L=legend(l)
+L.font_size=5
+xlabel("$(\frac{\epsilon-\mu}{K_b *T})$",'fontsize',5)
+ylabel("Avg. Occupation no.",'fontsize',5)
