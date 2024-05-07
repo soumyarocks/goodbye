@@ -1,0 +1,19 @@
+clc;clear;clf();
+n=input("Enter the no. of exp --")
+for j=1:n
+N=input("Enter the no. of coins--");
+total_microstates=2^N;
+for i=0:1:N
+    prob= factorial(N)/(factorial(i)*factorial(N-i));
+    H(i+1)=i;
+    P(i+1)= (prob/total_microstates);
+    
+    disp(H(i+1),P(i+1));    
+end
+subplot(3,2,j)
+ plot(H,P,'b-o','linewidth',2)
+ title('No. of Coins = '+string(N),'color','black','fontsize','7');
+ xlabel('No. of Heads','color','black','fontsize','5')
+ ylabel('Probability','color','black','fontsize','5')
+ xgrid();
+end
