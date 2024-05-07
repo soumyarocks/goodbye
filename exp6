@@ -1,0 +1,29 @@
+//plot the probability of the given partition function
+clc;clf();clear;
+beeta=1e-30:0.001:2;
+E=5;
+
+//k=8.6173303e-5
+P0=1./(exp(-beeta*E)+1)
+P1=exp(-beeta*E)./(1+exp(-beeta*E))
+subplot(2,2,1)
+plot(beeta,[P0' P1'])
+xlabel("beeta")
+ylabel("probability")
+legend(['P0'; 'P1'])
+Ev=E*P1
+subplot(2,2,2)
+plot(beeta,Ev')
+xlabel("beeta")
+ylabel("average energy")
+x=exp(-beeta*E)./((1+exp(-beeta*E))^2)
+cv=(E*beeta)^2.*P0.*P1
+subplot(2,2,3)
+xlabel("beeta")
+ylabel("specific heat")
+plot(beeta,cv')
+s=log(1./P0)+Ev.*beeta
+subplot(2,2,4)
+plot(beeta,s')
+xlabel("beeta")
+ylabel("Entropy")
