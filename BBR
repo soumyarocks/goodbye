@@ -1,0 +1,44 @@
+clc;clear;clf();
+h=6.626e-34;kb=1.38e-23;c=3e8;
+T=1500:100:2000;T0=2000;
+Wu=0.1:0.005:20;//lambda in micrometres
+W=Wu.*10^-6;//lambda in metres
+A=8*%pi*h*c;
+for j=1:length(T)
+    for i=1:length(W)
+        up(j,i)=(A/W(i)^5)/(exp((h*c)/(W(i)*kb*T(j)))-1);//Planck's law
+        ur(j,i)=(8*%pi*kb*T(j))/W(i)^4;//Rayleigh Jeans law
+        uw(j,i)=(A/W(i)^5)/(exp((h*c)/(W(i)*kb*T(j))));//Wien's distribution law
+end
+if T(j)==T0
+    q=j;
+end
+[p,k]=max(up(j,:));
+Wmax(j)=Wu(k);
+end
+//plot Planck's law
+figure;
+plot(Wu',up','linewidth',2);
+legend('T='+string(T)+'K');
+xlabel('$\lambda(\mu m)$','fontsize',7);
+ylabel('$u(\lambda)$','fontsize',7);
+title('Planck Radiation Law','fontsize',5)
+
+//comparasion with Rayleigh Jeans and Wien's Distribution law
+figure;
+plot(Wu',[up(q,:)' ur(q,:)' uw(q,:)'],'linewidth',2);
+replot([0,0,20,7000]);
+legend('Planck law','Rayleigh Jeans','Wien Dist. law');
+title('Temperature T='+string(T(q))+'K','fontsize',3);
+xlabel('$\lambda(\mu m)$','fontsize',7);
+ylabel('$u(\lambda)$','fontsize',7);
+
+//Wien's law
+TI=1./T;
+figure;
+plot(TI,Wmax','-o-','linewidth',2);
+title('Wien Law','fontsize',6);
+xlabel('$\frac 1 T(K^{-1})$','fontsize',6);
+ylabel('$\lambda_{max}(\mu m)$','fontsize',6);
+[b,a]=reglin(TI,Wmax');
+disp('the value of Wien constant is :'+string(b)+'um.K');
