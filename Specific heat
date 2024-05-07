@@ -1,0 +1,21 @@
+clc;clear;clf();
+k=1.38e-23;N=6.022e23;
+Te=input("Einstein temperature: ");
+Td=input("Debye temperature: ");
+T=0:1*Td;
+for i=1:length(T)
+    Cv(i)=3*N*k;//Dulong Petit's Law
+    if T(i)==0 then
+        Cve(i)=0;Cvd(i)=0;
+    else 
+        Cve(i)=3*N*k*(Te/T(i))^2*(exp(Te/T(i))/(exp(Te/T(i))-1)^2);//Einstein's
+        I=integrate('(y^4*exp(y)/(exp(y)-1)^2)','y',0,Td/T(i));
+        Cvd(i)=9*N*k*(T(i)/Td)^3*I;//Debye's
+    end
+   end
+   plot(T',Cv/(N*k),'-',T',Cve/(N*k),'--',T',Cvd/(N*k),'-.','linewidth',3);
+   title('specific heat of solids','fontsize',3);
+   ylabel('$C_v/Nk_b$','fontsize',3);
+   xlabel('T','fontsize',3);
+   legend('Dulong_Petit','Einstein','Debye',-4);
+   xgrid();
