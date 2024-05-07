@@ -1,0 +1,39 @@
+// for  fermions
+
+clc;clear;clf();
+E=0:0.001:5
+//g=E^(0.5)*c //3d non rel
+//g=E^(2)*c //3d rel
+//g=E^(1)*c //2d rel 
+//g=E^(0)*c //1d rel
+g=E^(-0.5)*c //1d non rel
+u=2;k=8.617e-5;T1= 4000;T2=10000//K 
+
+a1=exp((E-u)/(k*T1))
+a2=exp((E-u)/(k*T2))
+n1=1./((a1)+1);
+n2=1./((a2)+1);
+subplot(3,2,1)
+plot(E',g','linewidth',4);
+ylabel("g(E)")
+xlabel("E")
+subplot(3,2,2)
+plot(E',n1','linewidth',3);
+plot(E',n2','linewidth',1);
+legend('n_low temp=4000K','n_high temp=10000K')
+ylabel("n")
+xlabel("E")
+
+for i=1:length(E)
+    dn(i)=g(i)*n1(i)    
+end
+for i=1:length(E)
+    dn1(i)=g(i)*n2(i)    
+end
+subplot(3,2,3)
+plot(E',dn)
+plot(E',dn1)
+legend('n_low temp=4000K','n_high temp=10000K')
+ylabel("dn/dE")
+xlabel("E")
+a=gca()
