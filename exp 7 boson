@@ -1,0 +1,46 @@
+// for  bosons
+clc;clear;clf();
+E=1e-31:0.001:1
+//E=0:0.001:20
+V=1
+m=9.1e-31
+h=6.626e-34
+c=(2*%pi*((2*m)^(3/2))*V)/(h^3)
+disp(c)
+//g=E^(0.5)*c //3d non rel
+//g=E^(2)*c //3d rel
+//g=E^(1)*c //2d rel 
+//g=E^(0)*c //1d rel
+g=E^(-0.5)*c //1d non rel
+u=-1;k=8.617e-5;T1= 4000;T2=10000
+u2=-4
+a1=exp((E-u)/(k*T1))
+a2=exp((E-u2)/(k*T2))
+n1=1./((a1)-1);
+n2=1./((a2)-1);
+subplot(3,2,1)
+plot(E',g');
+ylabel("g(E)")
+xlabel("E")
+subplot(3,2,2)
+plot(E',n1','linewidth',3);
+plot(E',n2','linewidth',4);
+a.data_bounds=[0,0;0.5,1e-05]
+ylabel("n")
+xlabel("E")
+legend('n_low temp=4000K','n_high temp=10000K');
+for i=1:length(E)
+    dn(i)=g(i)*n1(i)    
+end
+for i=1:length(E)
+    dn1(i)=g(i)*n2(i)    
+end
+subplot(3,2,3)
+plot(E',dn)
+plot(E',dn1)
+a=gca()
+legend('n_low temp=4000K','n_high temp=10000K')
+ylabel("dn/dE")
+xlabel("E")
+//a.data_bounds=[0,0;0.1,10000]
+//title('For 3D,non-relativistic,low & high temp.','fontsize',5
