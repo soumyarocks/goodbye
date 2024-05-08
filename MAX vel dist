@@ -16,6 +16,8 @@ for i=1:length(T)
     for j=1:length(v)
     A=m/(2*k*T(i)) ;
     f(i,j)=4*%pi*((A/%pi)^1.5)*(v(j)^2)*exp(-A*v(j)^2); 
+           //2*%pi*A*v(j)^2*(A/%pi)*exp(-A*v(j)^2)
+           //L*A*v(j)^2*((A/%pi)^0.5)*exp(-A*v(j)^2)
     end
     [p,q]=max(f(i,:));
     Vmp=v(q);
