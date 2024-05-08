@@ -1,0 +1,47 @@
+clc;clear;clf();
+k=8.617333262D-5;
+T=(0:0.1:1D5)';
+E=1;
+for i=1:length(T)
+    b=1/(k.*T(i))
+    z1(i)=1+(2*exp(-b*E))+(2*exp(-2*b*E))+exp(-3*b*E)
+    z2(i)=3+(2*exp(-b*E))+(3*exp(-2*b*E))+(exp(-3*b*E))+(exp(-4*b*E))
+    e1(i)=(E*(2*exp(-b*E)+4*exp(-2*b*E)+3*exp(-3*b*E)))/z1(i)
+    e2(i)=(E/z2(i))*(2*exp(-b*E)+6*exp(-2*b*E)+3*exp(-3*b*E)+4*exp(-4*b*E))
+    Cv1(i)=(1/(k*(T(i)^2)))*((((E^2)*(2*exp(-b*E)+8*exp(-2*b*E)+9*exp(-3*b*E)))/z1(i))-(e1(i)^2))
+    Cv2(i)=(1/(k*(T(i)^2)))*((((E^2)*(2*exp(-b*E)+12*exp(-2*b*E)+9*exp(-3*b*E)+16*exp(-4*b*E)))/z2(i))-(e2(i)^2))
+    s1(i)=(k*log(z1(i)))+(e1(i)/T(i))
+    s2(i)=(k*log(z2(i)))+(e1(i)/T(i))
+end
+subplot(2,2,1)
+plot(k*T/E,z1,'linewidth',2)
+plot(k*T/E,z2,'--')
+a=gca()
+a.data_bounds=[0,0;8,8.5]
+xlabel('$ kT/\epsilon $','fontsize',4)
+ylabel('$ Z $','fontsize',4)
+legend("Fermions","Bosons")
+subplot(2,2,2)
+plot(k*T/E,e1/E,'linewidth',2)
+plot(k*T/E,e2/E,'--')
+a=gca()
+a.data_bounds=[0,0;8,1.4]
+xlabel('$ kT/\epsilon $','fontsize',4)
+ylabel('$ E/N\epsilon $','fontsize',4)
+legend("Fermions","Bosons")
+subplot(2,2,3)
+plot(k*T/E,Cv1/k,'linewidth',2)
+plot(k*T/E,Cv2/k,'--')
+a=gca()
+a.data_bounds=[0,0;8,1.2]
+xlabel('$ kT/\epsilon $','fontsize',4)
+ylabel('$ C_{v}/k $','fontsize',4)
+legend("Fermions","Bosons")
+subplot(2,2,4)
+plot(k*T/E,s1/k,'linewidth',2)
+plot(k*T/E,s2/k,'--')
+a=gca()
+a.data_bounds=[0,0;8,2.4]
+xlabel('$ kT/\epsilon $','fontsize',4)
+ylabel('$ S/k $','fontsize',4)
+legend("Fermions","Bosons")
